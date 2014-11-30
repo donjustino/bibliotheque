@@ -92,7 +92,7 @@ public class LivreRessource extends AbstractFacade<Livre> {
         return super.findRange(new int[]{min, max});
     }
     @GET
-    @Path("search/{id}")
+    @Path("chercherParCategorie/{id}")
     @Produces({"application/json"})
     public List<Livre> chercherLivreParCategorie(@PathParam("id") long id) {
       

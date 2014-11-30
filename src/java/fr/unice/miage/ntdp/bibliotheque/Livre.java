@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 @NamedQuery(
     name="chercherLivreParCat",
-    query="SELECT p FROM Pret p WHERE p.livre.id = :livre"
+    query="SELECT l FROM Livre l WHERE l.categorie.id = :categorie"
 )
 })
 @XmlRootElement
