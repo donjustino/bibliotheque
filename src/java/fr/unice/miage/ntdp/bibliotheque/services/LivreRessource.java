@@ -97,7 +97,6 @@ public class LivreRessource extends AbstractFacade<Livre> {
     public List<Livre> chercherLivreParCategorie(@PathParam("id") long id) {
       
         Query q = em.createNamedQuery("chercherLivreParCat");
-        System.out.println(id);
         q.setParameter("categorie", id);
         return q.getResultList();
     }
