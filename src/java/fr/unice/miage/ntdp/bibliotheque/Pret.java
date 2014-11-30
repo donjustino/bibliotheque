@@ -7,17 +7,35 @@ package fr.unice.miage.ntdp.bibliotheque;
 import java.io.Serializable;
 import java.sql.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author edou
  */
 @Entity
+@XmlRootElement(name = "pret")
+@NamedQueries({
+@NamedQuery(
+    name="findByLivreId",
+    query="SELECT c FROM Pret c WHERE c.livre = :livre"
+),
+    @NamedQuery(
+    name="findByUserId",
+    query="SELECT p FROM Pret p WHERE p.user = :user"
+),
+})
 public class Pret implements Serializable {
+    @Enumerated(EnumType.STRING)
+    private PretStatus status;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -93,6 +111,10 @@ public class Pret implements Serializable {
 
     public void setDuree(int Duree) {
         this.Duree = Duree;
+    }
+    
+    public void setStatus(PretStatus status) {
+        this.status = status;
     }
 
    
