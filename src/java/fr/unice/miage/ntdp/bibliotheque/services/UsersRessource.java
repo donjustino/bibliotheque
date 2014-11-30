@@ -5,6 +5,7 @@
  */
 package fr.unice.miage.ntdp.bibliotheque.services;
 
+import fr.unice.miage.ntdp.bibliotheque.AccountStatus;
 import fr.unice.miage.ntdp.bibliotheque.Users;
 import fr.unice.miage.ntdp.bibliotheque.bean.AbstractFacade;
 import java.util.List;
@@ -92,5 +93,16 @@ public class UsersRessource extends AbstractFacade<Users> {
     @Produces({"application/json,application/xml"})
     public List<Users> findByRange(@PathParam("min") Integer min, @PathParam("max") Integer max) {
         return super.findRange(new int[]{min, max});
+    }
+    
+    @PUT
+    @Path("{id}/setStatusById/{statutCompteId}")
+    @Produces({"application/xml", "application/json"})
+    public Users setNewStatus(@PathParam("statutCompteId") String statutCompteId, @PathParam("id") Long id) {
+        
+        Users user = super.find(id);
+        user.setStatutCompte(AccountStatus.valueOf(statutCompteId));
+       
+       return user;
     }
 }

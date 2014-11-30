@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,10 +21,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author edou
  */
 @Entity
+@NamedQueries({
 @NamedQuery(
-    name="findByCategory",
-    query="SELECT c FROM Livre c WHERE c.categorie = :categorie"
+    name="chercherLivreParCat",
+    query="SELECT p FROM Pret p WHERE p.livre.id = :livre"
 )
+})
 @XmlRootElement
 public class Livre implements Serializable {
     private static final long serialVersionUID = 1L;

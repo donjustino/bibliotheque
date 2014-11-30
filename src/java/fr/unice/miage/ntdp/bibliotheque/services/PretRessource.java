@@ -105,9 +105,9 @@ public class PretRessource extends AbstractFacade<Pret> {
     }
 
     @GET
-    @Path("findByLivreId/{livreId}")
+    @Path("chercheParLivreId/{livreId}")
     @Produces({"application/xml", "application/json"})
-    public List<Pret> findByLivre(@PathParam("livreId") Long livreId) {
+    public List<Pret> chercheParLivre(@PathParam("livreId") Long livreId) {
         Query query = em.createNamedQuery("findByLivreId");
         Livre livre = livreFacade.find(livreId);
         query.setParameter("livre", livre);
@@ -116,9 +116,9 @@ public class PretRessource extends AbstractFacade<Pret> {
     }
 
     @GET
-    @Path("findByUserId/{userId}")
+    @Path("chercherParIdUtilsateur/{userId}")
     @Produces({"application/xml", "application/json"})
-    public List<Pret> findByUser(@PathParam("userId") Long userId) {
+    public List<Pret> chercherParIdUtilsateur(@PathParam("userId") Long userId) {
         Query query = em.createNamedQuery("findByUserId");
         Personne user = personneFacade.find(userId);
         query.setParameter("user", user);
@@ -127,14 +127,12 @@ public class PretRessource extends AbstractFacade<Pret> {
     }
 
     @PUT
-    @Path("{id}/setStatusById/{statusId}")
-    @Produces({"application/xml", "application/json"})
-    public Pret setNewStatus(@PathParam("statusId") Integer statusId, @PathParam("id") Long pretId) {
-        Query query = em.createNamedQuery("findByUserId");
-        Pret pret = super.find(pretId);
-        pret.setStatus(PretStatus.values()[statusId]);
-
-        return pret;
+    @Path("{id}/statutPret/{statutpret}")
+    @Produces({"application/json"})
+    public Pret setStatusPret(@PathParam("statutpret") Integer statut, @PathParam("id") Long id) {
+        Pret p = super.find(id);
+        p.setStatus(PretStatus.values()[statut]);
+        return p;
     }
 
 }

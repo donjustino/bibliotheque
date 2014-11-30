@@ -91,19 +91,16 @@ public class LivreRessource extends AbstractFacade<Livre> {
     public List<Livre> findByRange(@PathParam("min") Integer min, @PathParam("max") Integer max) {
         return super.findRange(new int[]{min, max});
     }
-
-   @GET
-    @Path("findByCategorie/{categorieId}")
-    @Produces({"application/xml", "application/json"})
-    public List<Livre> findByCategorie(@PathParam("categorieId") Long categorieId) {
-       Query  query = em.createNamedQuery("findByCategory");
-       System.out.println("ID : " + categorieId);
-       Categorie categorie = categorieRessource.find(categorieId);
-       System.out.println("Cat : " + categorie.getId());
-       query.setParameter("categorie", categorie);
-       List<Livre> livres = query.getResultList();
-       System.out.println("Livre : " + livres.toString());
-       return livres;
+    @GET
+    @Path("search/{id}")
+    @Produces({"application/json"})
+    public List<Livre> chercherLivreParCategorie(@PathParam("id") long id) {
+      
+        Query q = em.createNamedQuery("chercherLivreParCat");
+        System.out.println(id);
+        q.setParameter("categorie", id);
+        return q.getResultList();
     }
+    
 
 }
