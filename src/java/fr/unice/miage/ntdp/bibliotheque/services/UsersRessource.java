@@ -6,6 +6,7 @@
 package fr.unice.miage.ntdp.bibliotheque.services;
 
 import fr.unice.miage.ntdp.bibliotheque.AccountStatus;
+import fr.unice.miage.ntdp.bibliotheque.Message;
 import fr.unice.miage.ntdp.bibliotheque.Users;
 import fr.unice.miage.ntdp.bibliotheque.bean.AbstractFacade;
 import java.util.List;
@@ -20,7 +21,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -42,7 +42,8 @@ public class UsersRessource extends AbstractFacade<Users> {
     protected EntityManager getEntityManager() {
         return em;
     }
-     @GET
+    
+    /*@GET
     @Produces({"application/json,application/xml"})
     public List<Users> list() {
         return super.findAll();
@@ -54,6 +55,23 @@ public class UsersRessource extends AbstractFacade<Users> {
     public void create(Users c) {
         String output = "POST:Jersey say : ";
         Response.status(204).entity(output).build();
+        super.create(c);
+    }
+    */
+    @GET
+    @Produces({"application/json,application/xml"})
+    public Message list() {
+        Message listMessage = new Message();
+        listMessage.data = super.findAll();
+        listMessage.status = true;
+        listMessage.message = "ça marche";
+        return listMessage;
+    }
+
+    @POST
+    @Override
+    @Consumes({"application/xml", "application/json"})
+    public void create(Users c) {
         super.create(c);
     }
     
@@ -73,12 +91,20 @@ public class UsersRessource extends AbstractFacade<Users> {
             super.edit(c);
         }
     }
-    
+    /*
     @DELETE
     @Path("/{id}")
     @Consumes("text/plain")
     public void remove(@PathParam("id") Long id) {
         super.remove(super.find(id));
+    } */
+    
+    @DELETE
+    @Path("{id}")
+    public String remove(@PathParam("id") Long id) {
+        super.remove(super.find(id));
+        String json = "Delete";
+        return json;
     }
     
     @GET

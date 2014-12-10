@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,6 +19,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author edou
  */
 @Entity
+@NamedQuery(
+        name = "findUserByUsernameAndPassword",
+        query = "SELECT u FROM Users u WHERE u.nomUtilisateur = :nomUtilisateur AND u.motDePasse = :motDePasse"
+)
 @XmlRootElement
 public class Users extends Personne implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -29,6 +34,7 @@ public class Users extends Personne implements Serializable {
     private AccountStatus statutCompte; 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date derniereConnexion; 
+    private int authorizationKey;
     
     @Override
     public int hashCode() {

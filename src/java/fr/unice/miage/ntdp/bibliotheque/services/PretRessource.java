@@ -6,6 +6,7 @@
 package fr.unice.miage.ntdp.bibliotheque.services;
 
 import fr.unice.miage.ntdp.bibliotheque.Livre;
+import fr.unice.miage.ntdp.bibliotheque.Message;
 import fr.unice.miage.ntdp.bibliotheque.Personne;
 import fr.unice.miage.ntdp.bibliotheque.Pret;
 import fr.unice.miage.ntdp.bibliotheque.PretStatus;
@@ -50,19 +51,28 @@ public class PretRessource extends AbstractFacade<Pret> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
+    /*
     @GET
     @Produces({"application/json,application/xml"})
     public List<Pret> list() {
         return super.findAll();
+    }*/
+    
+    @GET
+    @Produces({"application/json,application/xml"})
+    public Message list() {
+        Message listMessage = new Message();
+        listMessage.data = super.findAll();
+        listMessage.status = true;
+        listMessage.message = "ça marche";
+        return listMessage;
     }
+    
 
     @POST
     @Consumes({"application/json,application/xml"})
     @Override
     public void create(Pret c) {
-        String output = "POST:Jersey say : ";
-        Response.status(204).entity(output).build();
         super.create(c);
     }
 
@@ -82,12 +92,13 @@ public class PretRessource extends AbstractFacade<Pret> {
             super.edit(c);
         }
     }
-
+    
     @DELETE
-    @Path("/{id}")
-    @Consumes("text/plain")
-    public void remove(@PathParam("id") Long id) {
+    @Path("{id}")
+    public String remove(@PathParam("id") Long id) {
         super.remove(super.find(id));
+        String json = "Delete";
+        return json;
     }
 
     @GET

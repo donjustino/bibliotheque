@@ -2,6 +2,7 @@ package fr.unice.miage.ntdp.bibliotheque.services;
 
 import fr.unice.miage.ntdp.bibliotheque.Categorie;
 import fr.unice.miage.ntdp.bibliotheque.Livre;
+import fr.unice.miage.ntdp.bibliotheque.Message;
 import fr.unice.miage.ntdp.bibliotheque.bean.AbstractFacade;
 import java.util.List;
 import javax.ejb.EJB;
@@ -38,21 +39,31 @@ public class LivreRessource extends AbstractFacade<Livre> {
     public LivreRessource() {
         super(Livre.class);
     }
-
+    /*
     @GET
     @Produces({"application/json,application/xml"})
     public List<Livre> list() {
         return super.findAll();
+    } */
+    
+     @GET
+    @Produces({"application/json,application/xml"})
+    public Message list() {
+        Message listMessage = new Message();
+        listMessage.data = super.findAll();
+        listMessage.status = true;
+        listMessage.message = "ça marche";
+        return listMessage;
     }
 
     @POST
-    @Consumes({"application/json,application/xml"})
     @Override
+    @Consumes({"application/json,application/xml"})
     public void create(Livre c) {
-        String output = "POST:Jersey say : ";
-        Response.status(204).entity(output).build();
         super.create(c);
     }
+    
+    
 
     @GET
     @Path("/{id}")
@@ -70,12 +81,20 @@ public class LivreRessource extends AbstractFacade<Livre> {
             super.edit(c);
         }
     }
-
+    /*
     @DELETE
     @Path("/{id}")
     @Consumes("text/plain")
     public void remove(@PathParam("id") Long id) {
         super.remove(super.find(id));
+    }*/
+    
+    @DELETE
+    @Path("{id}")
+    public String remove(@PathParam("id") Long id) {
+        super.remove(super.find(id));
+        String json = "Delete";
+        return json;
     }
 
     @GET

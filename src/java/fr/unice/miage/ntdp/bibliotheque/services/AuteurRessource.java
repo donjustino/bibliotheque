@@ -7,6 +7,7 @@ package fr.unice.miage.ntdp.bibliotheque.services;
 
 import fr.unice.miage.ntdp.bibliotheque.Auteur;
 import fr.unice.miage.ntdp.bibliotheque.Categorie;
+import fr.unice.miage.ntdp.bibliotheque.Message;
 import fr.unice.miage.ntdp.bibliotheque.bean.AbstractFacade;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -42,18 +43,27 @@ public class AuteurRessource extends AbstractFacade<Auteur> {
     protected EntityManager getEntityManager() {
         return em;
     }
-     @GET
+    /*
+    @GET
     @Produces({"application/json,application/xml"})
     public List<Auteur> list() {
         return super.findAll();
+    } */
+    
+    @GET
+    @Produces({"application/json,application/xml"})
+    public Message list() {
+        Message listMessage = new Message();
+        listMessage.data = super.findAll();
+        listMessage.status = true;
+        listMessage.message = "ça marche";
+        return listMessage;
     }
 
     @POST
     @Consumes({"application/json,application/xml"})
     @Override
     public void create(Auteur c) {
-        String output = "POST:Jersey say : ";
-        Response.status(204).entity(output).build();
         super.create(c);
     }
     
@@ -73,12 +83,21 @@ public class AuteurRessource extends AbstractFacade<Auteur> {
             super.edit(c);
         }
     }
-    
+    /*
     @DELETE
     @Path("/{id}")
     @Consumes("text/plain")
     public void remove(@PathParam("id") Long id) {
         super.remove(super.find(id));
+    }
+    */
+    
+    @DELETE
+    @Path("{id}")
+    public String remove(@PathParam("id") Long id) {
+        super.remove(super.find(id));
+        String json = "Delete";
+        return json;
     }
     
     @GET
